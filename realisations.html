@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos réalisations — TRI'ANGLE</title>
+  <meta name="description" content="Galerie des réalisations de TRI'ANGLE : charpente, menuiserie, agencements.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="navbar-wrap container">
+    <div class="navbar">
+      <a class="logo" href="index.html" aria-label="TRI'ANGLE">
+        <img src="assets/img/logo.png" alt="Logo TRI'ANGLE" class="logo-img">
+        TRI'ANGLE
+      </a>
+      <button class="menu-toggle" data-menu-toggle aria-label="Ouvrir le menu">Menu</button>
+      <nav class="nav" data-nav>
+        <a href="index.html">Accueil</a>
+        <a href="realisations.html">Nos réalisations</a>
+        <a href="savoir-faire.html">Notre savoir-faire</a>
+        <a href="engagements.html">Nos engagements</a>
+        <a class="cta" href="contact.html">Contactez-nous</a>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 data-reveal>Nos réalisations</h1>
+        <p class="lead" data-reveal>Une sélection de projets mettant en valeur notre exigence et notre amour du bois.</p>
+        <div class="card" data-reveal>
+          <p>Chaque projet est unique. Nous intervenons sur des structures neuves comme en rénovation, en adaptant notre approche aux contraintes du bâtiment et aux usages attendus. Les choix de bois, d’assemblages et de finitions sont discutés avec vous pour garantir robustesse, esthétique et budget maîtrisé.</p>
+          <p>Découvrez ci‑dessous un aperçu de nos chantiers : charpentes traditionnelles apparentes, extensions en ossature bois performantes, menuiseries extérieures résistantes et agencements intérieurs sur‑mesure (escaliers, dressings, bibliothèques, cuisines).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="container">
+        <div class="card" data-reveal>
+          <div class="slider" data-slider>
+            <div class="track" data-track style="display:flex;transition:transform .5s ease;width:100%">
+              <div class="slide" data-slide style="min-width:100%"><img src="assets/img/charpente-1.jpg" alt="Charpente traditionnelle"></div>
+              <div class="slide" data-slide style="min-width:100%"><img src="assets/img/charpente-2.jpg" alt="Ossature bois"></div>
+              <div class="slide" data-slide style="min-width:100%"><img src="assets/img/charpente-3.jpg" alt="Agencement sur mesure"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px">
+              <button class="btn" data-prev>Précédent</button>
+              <button class="btn" data-next>Suivant</button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title" data-reveal>Galerie</h2>
+        <p class="section-lead" data-reveal>Cette galerie illustre la variété de nos interventions, des structures aux finitions. Les photos sont recadrées automatiquement pour une présentation homogène, quel que soit le format d’origine.</p>
+        <div class="gallery" data-reveal>
+          <div class="item large"><img src="assets/img/charpente-1.jpg" alt="Structure bois"></div>
+          <div class="item"><img src="assets/img/charpente-2.jpg" alt="Escalier"></div>
+          <div class="item"><img src="assets/img/charpente-3.jpg" alt="Cuisine bois"></div>
+          <div class="item"><img src="assets/img/charpente-4.jpg" alt="Façade bois"></div>
+          <div class="item"><img src="assets/img/charpente-5.jpg" alt="Terrasse"></div>
+          <div class="item"><img src="assets/img/charpente-6.jpg" alt="Bardage"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>TRI'ANGLE</h4>
+          <p>Entreprise de charpente et menuiserie. Interventions en rénovation et neuf.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <a href="index.html">Accueil</a>
+          <a href="realisations.html">Nos réalisations</a>
+          <a href="savoir-faire.html">Notre savoir-faire</a>
+          <a href="engagements.html">Nos engagements</a>
+          <a href="contact.html">Contactez-nous</a>
+        </div>
+        <div class="footer-col">
+          <h4>Conditions</h4>
+          <a href="cgu.html">Conditions générales d’utilisation</a>
+          <a href="mentions-legales.html">Mentions légales</a>
+        </div>
+      </div>
+      <div class="footer-bottom">© <span data-year></span> TRI'ANGLE. Tous droits réservés.</div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
+
