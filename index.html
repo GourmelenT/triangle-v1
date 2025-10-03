@@ -8,13 +8,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <div class="navbar-wrap container">
     <div class="navbar">
       <a class="logo" href="index.html" aria-label="TRI'ANGLE">
-        <img src="assets/img/logo.png" alt="Logo TRI'ANGLE" class="logo-img">
         TRI'ANGLE
       </a>
       <button class="menu-toggle" data-menu-toggle aria-label="Ouvrir le menu">Menu</button>
@@ -29,6 +29,7 @@
   </div>
 
   <main>
+    <div id="toast" hidden>Formulaire envoyé avec succès.</div>
     <section class="hero">
       <div class="container">
         <h1 data-reveal>Charpente et menuiserie d'exception, durable et sur‑mesure.</h1>
@@ -43,7 +44,12 @@
     <section class="alt">
       <div class="container">
         <h2 class="section-title" data-reveal>TRI'ANGLE, votre partenaire bois</h2>
-        <p class="section-lead" data-reveal>Charpente traditionnelle, ossature bois, menuiserie intérieure et extérieure : nous concevons et réalisons des ouvrages solides, élégants et durables.</p>
+        <div class="section-lead-with-logo">
+          <p class="section-lead" data-reveal>Charpente traditionnelle, ossature bois, menuiserie intérieure et extérieure : nous concevons et réalisons des ouvrages solides, élégants et durables.</p>
+          <div class="logo-bubble" data-reveal>
+            <img src="assets/img/logo.png" alt="Logo TRI'ANGLE" class="logo-large-img">
+          </div>
+        </div>
         <div class="gallery" data-reveal>
           <div class="item large"><img src="assets/img/charpente-8.jpg" alt="Charpente apparente"></div>
           <div class="item"><img src="assets/img/charpente-4.jpg" alt="Escalier bois"></div>

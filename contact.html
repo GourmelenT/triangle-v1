@@ -8,13 +8,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <div class="navbar-wrap container">
     <div class="navbar">
       <a class="logo" href="index.html" aria-label="TRI'ANGLE">
-        <img src="assets/img/logo.png" alt="Logo TRI'ANGLE" class="logo-img">
         TRI'ANGLE
       </a>
       <button class="menu-toggle" data-menu-toggle aria-label="Ouvrir le menu">Menu</button>
@@ -38,7 +38,13 @@
 
     <section class="alt">
       <div class="container contact-wrap">
-        <form class="form" action="#" method="post" enctype="multipart/form-data" novalidate data-reveal>
+        <form class="form" action="https://formsubmit.co/tom.gourmel1@gmail.com" method="POST" enctype="multipart/form-data" data-reveal>
+          <!-- FormSubmit configuration -->
+          <input type="hidden" name="_subject" value="Nouveau message TRI'ANGLE">
+          <input type="hidden" name="_template" value="box">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="index.html?sent=1">
+          <input type="text" name="_honey" style="display:none">
           <div class="field">
             <label for="nom">Nom</label>
             <input class="input" type="text" id="nom" name="nom" placeholder="Dupont" required>
@@ -48,7 +54,7 @@
             <input class="input" type="text" id="prenom" name="prenom" placeholder="Jean" required>
           </div>
           <div class="field">
-            <label for="email">E‑mail</label>
+            <label for="email">E‑mail *</label>
             <input class="input" type="email" id="email" name="email" placeholder="vous@exemple.fr" required>
           </div>
           <div class="field">
@@ -64,11 +70,12 @@
             <input class="file" type="file" id="fichier" name="fichier" accept=".pdf,.jpg,.jpeg,.png">
           </div>
           <div class="field">
-            <label for="message">Message</label>
+            <label for="message">Message *</label>
             <textarea class="textarea" id="message" name="message" placeholder="Décrivez votre projet..." required></textarea>
           </div>
           <div class="actions">
             <button class="btn submit" type="submit">Envoyer la demande</button>
+            <input type="hidden" name="_autoresponse" value="Bonjour,\n\nNous avons bien reçu votre message. Nous revenons vers vous très vite.\n\nTRI'ANGLE">
           </div>
         </form>
 
@@ -76,7 +83,7 @@
           <h2 class="section-title">Coordonnées</h2>
           <p>TRI'ANGLE — Charpente & Menuiserie<br>Ouverts du lundi au vendredi, 8h‑18h.</p>
           <p>Nous intervenons sur un large périmètre autour de notre atelier. Pour faciliter l’étude, joignez des photos, plans ou croquis à votre message. Nous revenons vers vous sous 24 à 48h ouvrées pour un premier échange et, si besoin, une visite sur site.</p>
-          <p><strong>E‑mail</strong> : contact@tri-angle.fr<br><strong>Tél</strong> : 01 23 45 67 89</p>
+          <p><strong>E‑mail</strong> : 📧triangle.charpente.menuiserie@gmail.com<br><strong>Tél</strong> : 06 42 56 22 60</p>
           <div class="blob-stage" aria-hidden="true">
             <div class="blob logo-large"><img src="assets/img/logo.png" alt="" loading="lazy"></div>
           </div>
