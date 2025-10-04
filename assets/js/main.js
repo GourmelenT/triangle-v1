@@ -67,19 +67,19 @@ document.querySelectorAll('[data-slider]').forEach((slider) => {
 const yearEl = document.querySelector('[data-year]');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Show toast on ?sent=1 then clean URL
-(function showToastIfSent() {
+// Show toast on ?success=1 then clean URL
+(function showToastIfSuccess() {
   try {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('sent') === '1') {
+    if (params.get('success') === '1') {
       const toast = document.getElementById('toast');
       if (toast) {
         toast.hidden = false;
         requestAnimationFrame(() => toast.classList.add('show'));
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        setTimeout(() => toast.classList.remove('show'), 4000);
       }
       const url = new URL(window.location.href);
-      url.searchParams.delete('sent');
+      url.searchParams.delete('success');
       window.history.replaceState({}, '', url);
     }
   } catch (_) {}
@@ -93,7 +93,7 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
   function ensureNextRedirect() {
     const origin = window.location.origin || '';
     const next = form.querySelector('input[name="_next"]');
-    const targetUrl = origin + '/index.html?sent=1';
+    const targetUrl = origin + '/index.html?success=1';
     if (next) next.value = targetUrl;
   }
 
@@ -122,20 +122,50 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     if (email) {
       const value = email.value.trim();
-      // Basic email check; rely on browser validation as well
-      const ok = /.+@.+\..+/.test(value);
-      if (!ok) { valid = false; showError(email, 'Veuillez saisir un e‑mail valide.'); } else { clearError(email); }
+      // Stricte validation email : local@domain.tld
+      // Local part: lettres, chiffres, points, tirets, underscores (pas de points consécutifs)
+      // Domain: au moins un point, lettres/chiffres/tirets, TLD d'au moins 2 caractères
+      const emailRegex = /^[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?@[a-zA-Z0-9]([a-zA-Z0-9.-]*[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/;
+      const hasAt = value.includes('@');
+      const hasDotAfterAt = value.includes('.', value.indexOf('@'));
+      const noConsecutiveDots = !value.includes('..');
+      const noStartEndDots = !value.startsWith('.') && !value.endsWith('.') && !value.includes('@.') && !value.includes('.@');
+      const lengthOk = value.length >= 5 && value.length <= 254;
+      
+      const ok = emailRegex.test(value) && hasAt && hasDotAfterAt && noConsecutiveDots && noStartEndDots && lengthOk;
+      
+      if (!ok) { 
+        valid = false; 
+        showError(email, 'Veuillez saisir une adresse e‑mail valide (ex: nom@domaine.fr).'); 
+      } else { 
+        clearError(email); 
+      }
     }
 
     if (tel) {
-      const digits = (tel.value || '').replace(/\D/g, '');
-      const ok = digits.length >= 10;
-      if (!ok) { valid = false; showError(tel, 'Le numéro doit contenir au moins 10 chiffres.'); } else { clearError(tel); }
+      const value = tel.value.trim();
+      // Remove all non-digit characters
+      const digits = value.replace(/\D/g, '');
+      // Check for French phone number patterns: 10 digits starting with 0, or 11 digits starting with 33
+      const frenchPhoneRegex = /^(0[1-9]|33[1-9])[0-9]{8}$/;
+      const ok = frenchPhoneRegex.test(digits) && (digits.length === 10 || digits.length === 11);
+      
+      if (!ok) { 
+        valid = false; 
+        showError(tel, 'Veuillez saisir un numéro de téléphone français valide (ex: 06 12 34 56 78).'); 
+      } else { 
+        clearError(tel); 
+      }
     }
 
     if (message) {
       const value = message.value.trim();
-      if (!value) { valid = false; showError(message, 'Le message est requis.'); } else { clearError(message); }
+      if (!value) { 
+        valid = false; 
+        showError(message, 'Le message est requis.'); 
+      } else { 
+        clearError(message); 
+      }
     }
 
     if (!valid) {

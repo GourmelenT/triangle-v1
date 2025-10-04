@@ -314,20 +314,23 @@ section.alt { background: var(--bg-contrast); }
   left: 50%;
   bottom: 24px;
   transform: translateX(-50%);
-  background: rgb(59, 118, 59);
-  color: #f9f9f9;
-  border: 1px solid var(--navbar-border);
-  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 16px 20px;
   z-index: 2000;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .25s ease, transform .25s ease;
+  transition: opacity .3s ease, transform .3s ease;
+  font-weight: 500;
+  max-width: 90vw;
+  text-align: center;
 }
 #toast.show {
   opacity: 1;
-  transform: translateX(-50%) translateY(-6px);
+  transform: translateX(-50%) translateY(-8px);
 }
 
 /* Section lead with logo */
