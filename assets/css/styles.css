@@ -70,6 +70,22 @@
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
+
+/* Prevent text selection on interactive elements */
+button, .btn, .menu-toggle, .nav a, .logo, .review-arrow, .review-card, .navbar, .card, .form, .input, .textarea, .file, .slider, .gallery .item, .blob, .logo-bubble, .map-card {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection on content areas */
+p, h1, h2, h3, h4, h5, h6, .section-lead, .review-text, .footer-col p, .footer-bottom, .map-caption, .error-text, .field label {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
