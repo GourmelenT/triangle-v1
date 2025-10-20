@@ -1,3 +1,108 @@
+// Chargement dynamique de la galerie depuis content/galerie
+document.addEventListener('DOMContentLoaded', function () {
+  const grid = document.getElementById('galerie-grid');
+  if (!grid) return;
+
+  // Fonction utilitaire pour parser le frontmatter YAML d'un fichier Markdown
+  function parseFrontmatter(md) {
+    const match = md.match(/^---([\s\S]*?)---/);
+    if (!match) return null;
+    const yaml = match[1];
+    const lines = yaml.split(/\r?\n/);
+    const data = {};
+    lines.forEach(line => {
+      const idx = line.indexOf(':');
+      if (idx > -1) {
+        const key = line.slice(0, idx).trim();
+        let value = line.slice(idx + 1).trim();
+        // Enlève les guillemets éventuels
+        value = value.replace(/^['"]|['"]$/g, '');
+        data[key] = value;
+      }
+    });
+    return data;
+  }
+
+  // Récupère la liste des fichiers dans content/galerie (nécessite que le serveur autorise l'indexation ou que Netlify génère un index.json)
+  fetch('content/galerie/index.json')
+    .then(r => r.json())
+    .then(files => {
+      files.forEach(file => {
+        fetch('content/galerie/' + file)
+          .then(r => r.text())
+          .then(md => {
+            const data = parseFrontmatter(md);
+            if (!data) return;
+            // Création du bloc
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            // Optionnel : data-category pour le filtrage
+            if (data.category) card.setAttribute('data-category', data.category);
+            card.innerHTML = `
+              <img src="${data.image}" alt="${data.title}">
+              <div class="project-info">
+                <h3>${data.title}</h3>
+                <p>${data.description || ''}</p>
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+      });
+    })
+    .catch(() => {
+      // Si pas d'index.json, affiche un message d'aide
+      grid.innerHTML = '<p style="color:#888">Aucune galerie trouvée. Ajoutez des photos via l’admin.</p>';
+    });
+});
+// Filtres rapides Derniers projets
+document.querySelectorAll('.projects-filters').forEach((filters) => {
+  const btns = filters.querySelectorAll('.filter-btn');
+  const grid = filters.parentElement.querySelector('.projects-grid');
+  const cards = grid ? grid.querySelectorAll('.project-card') : [];
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.getAttribute('data-filter');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+// Filtres dynamiques pour la grille de réalisations
+const realFilters = document.querySelectorAll('.projects-filters');
+realFilters.forEach((filters) => {
+  const btns = filters.querySelectorAll('.filter-btn');
+  const grid = filters.parentElement.parentElement.nextElementSibling.querySelector('.projects-grid');
+  const cards = grid ? grid.querySelectorAll('.project-card') : [];
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.getAttribute('data-filter');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+
+// Sticky CTA accessibility
+const stickyCta = document.querySelector('.sticky-cta');
+if (stickyCta) {
+  stickyCta.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') stickyCta.blur();
+  });
+}
 // Mobile menu toggle
 document.addEventListener('click', (e) => {
   const toggle = e.target.closest('[data-menu-toggle]');
@@ -23,31 +128,6 @@ document.querySelectorAll('[data-reveal]').forEach((el) => {
   revealObserver.observe(el);
 });
 
-// Gentle floating parallax for blobs
-function lerp(a, b, t) { return a + (b - a) * t; }
-
-const blobEls = Array.from(document.querySelectorAll('.blob'));
-const blobBase = blobEls.map(() => ({ x: (Math.random() - 0.5) * 16, y: (Math.random() - 0.5) * 16 }));
-
-let mouseX = 0, mouseY = 0;
-window.addEventListener('mousemove', (e) => {
-  const x = (e.clientX / window.innerWidth) * 2 - 1;
-  const y = (e.clientY / window.innerHeight) * 2 - 1;
-  mouseX = lerp(mouseX, x, 0.2);
-  mouseY = lerp(mouseY, y, 0.2);
-});
-
-function animateBlobs() {
-  blobEls.forEach((el, i) => {
-    const base = blobBase[i];
-    const dx = base.x + mouseX * 8;
-    const dy = base.y + mouseY * 8;
-    el.style.transform = `translate(${dx}px, ${dy}px)`;
-  });
-  requestAnimationFrame(animateBlobs);
-}
-if (blobEls.length) requestAnimationFrame(animateBlobs);
-
 // Simple slider (auto + arrows) for gallery sections with [data-slider]
 document.querySelectorAll('[data-slider]').forEach((slider) => {
   const track = slider.querySelector('[data-track]');
@@ -61,6 +141,113 @@ document.querySelectorAll('[data-slider]').forEach((slider) => {
   slider.querySelectorAll('[data-prev]').forEach((btn) => btn.addEventListener('click', () => go(index - 1)));
   slider.querySelectorAll('[data-next]').forEach((btn) => btn.addEventListener('click', () => go(index + 1)));
   setInterval(() => go(index + 1), 5000);
+});
+
+// Portfolio Carousel
+document.querySelectorAll('[data-portfolio-carousel]').forEach((carousel) => {
+  const track = carousel.querySelector('[data-carousel-track]');
+  const slides = carousel.querySelectorAll('[data-carousel-slide]');
+  const indicators = carousel.querySelectorAll('[data-carousel-indicator]');
+  const prevBtn = carousel.querySelector('[data-carousel-prev]');
+  const nextBtn = carousel.querySelector('[data-carousel-next]');
+  
+  if (!track || slides.length === 0) return;
+  
+  let currentIndex = 0;
+  let autoplayInterval;
+  
+  function updateCarousel(index) {
+    currentIndex = (index + slides.length) % slides.length;
+    
+    // Update track position
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    
+    // Update active slide
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === currentIndex);
+    });
+    
+    // Update indicators
+    indicators.forEach((indicator, i) => {
+      indicator.classList.toggle('active', i === currentIndex);
+    });
+  }
+  
+  function goToSlide(index) {
+    updateCarousel(index);
+    resetAutoplay();
+  }
+  
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+  
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+  
+  function startAutoplay() {
+    autoplayInterval = setInterval(nextSlide, 5000);
+  }
+  
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+    }
+  }
+  
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+  
+  // Event listeners
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+  
+  indicators.forEach((indicator, i) => {
+    indicator.addEventListener('click', () => goToSlide(i));
+  });
+  
+  // Keyboard navigation
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prevSlide();
+    if (e.key === 'ArrowRight') nextSlide();
+  });
+  
+  // Pause autoplay on hover
+  carousel.addEventListener('mouseenter', stopAutoplay);
+  carousel.addEventListener('mouseleave', startAutoplay);
+  
+  // Touch swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+  }
+  
+  // Initialize
+  updateCarousel(0);
+  startAutoplay();
 });
 
 // Utility: year in footer
