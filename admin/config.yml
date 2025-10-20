@@ -2,8 +2,8 @@ backend:
   name: github
   repo: gourmelent/triangle-v1
   branch: main
-  site_domain: triangle-v1.netlify.app
-  base_url: https://triangle-v1.netlify.app
+  site_domain: triangle-charpente-menuiserie.netlify.app
+  base_url: https://triangle-charpente-menuiserie.netlify.app
 
 media_folder: "assets/img/galerie"
 public_folder: "/assets/img/galerie"
