@@ -3,8 +3,22 @@
   <head>
     <meta charset="utf-8">
     <title>Admin</title>
+    <style>
+      body { font-family: Inter, Arial, sans-serif; background: #f7f7f7; margin: 0; }
+      .cms-loader { text-align: center; margin-top: 80px; color: #007AED; font-size: 1.2em; }
+    </style>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   </head>
   <body>
+    <div class="cms-loader">Chargement de l’interface d’administration…</div>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var loader = document.querySelector('.cms-loader');
+          if (loader) loader.style.display = 'none';
+        }, 2000);
+      });
+    </script>
+    <!-- Netlify CMS s'affichera ici -->
   </body>
 </html>
