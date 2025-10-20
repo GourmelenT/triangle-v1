@@ -1,9 +1,9 @@
 backend:
-  name: github
-  repo: gourmelent/triangle-v1
+  name: git-gateway
   branch: main
-  site_domain: triangle-charpente-menuiserie.netlify.app
-  base_url: https://triangle-charpente-menuiserie.netlify.app
+
+# Mode local pour développement (à commenter en production)
+# local_backend: true
 
 media_folder: "assets/img/galerie"
 public_folder: "/assets/img/galerie"
